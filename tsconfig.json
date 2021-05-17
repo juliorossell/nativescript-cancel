@@ -15,7 +15,11 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/tests/**/*.ts", "src/**/*.ios.ts", "src/**/*.android.ts"],
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+  },
+  "include": ["src/tests/**/*.ts", "src/**/*.ios.ts", "src/**/*.android.ts", "src/**/*.d.ts"],
   "files": ["./src/main.ts", "./references.d.ts"],
   "exclude": ["node_modules", "platforms", "e2e"]
 }

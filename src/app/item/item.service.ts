@@ -1,4 +1,6 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { Subject } from 'rxjs';
 
 import { Item } from './item'
 
@@ -31,6 +33,10 @@ export class ItemService {
     { id: 25, name: 'Masip', role: 'Goalkeeper' }
   )
 
+  changeChildren$ = new Subject();
+  // childrenChangeEmitted$ = this.changeChildren$.asObservable();
+  constructor(private httpClient: HttpClient) {}
+
   getItems(): Array<Item> {
     return this.items
   }
@@ -38,4 +44,28 @@ export class ItemService {
   getItem(id: number): Item {
     return this.items.filter((item) => item.id === id)[0]
   }
+
+  fakeDelay(body? : any) {
+    // const headerDict = {
+    //   'Content-Type': 'application/json',
+    //   'Accept': 'application/json',
+    //   'Access-Control-Allow-Headers': 'Content-Type',
+    // }
+
+    // const requestOptions = {
+    //   headers: new Headers(headerDict),
+    // };
+
+
+    const reqHeader = new HttpHeaders({
+      'cancel-http': 'true',
+    });
+    const url = 'https://httpbin.org/delay/' + body;
+    return this.httpClient.get(url, { headers: reqHeader });
+  }
+
+  emitChangeChildren(body?: any) {
+    this.changeChildren$.next(body);
+  }
+
 }

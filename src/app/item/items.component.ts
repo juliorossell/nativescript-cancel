@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { tap } from 'rxjs/operators';
 
 import { Item } from './item'
 import { ItemService } from './item.service'
@@ -13,6 +14,16 @@ export class ItemsComponent implements OnInit {
   constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
-    this.items = this.itemService.getItems()
+    this.items = this.itemService.getItems();
+    this.watchChildrenChange();
+  }
+
+  watchChildrenChange() {
+    this.itemService.changeChildren$
+      .pipe(
+        tap(() => console.log('recibiendo desde el padre.')),
+        tap(res => console.log(res))
+      )
+      .subscribe();
   }
 }
